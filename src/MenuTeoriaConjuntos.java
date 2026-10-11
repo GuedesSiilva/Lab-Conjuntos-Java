@@ -26,16 +26,18 @@ public class MenuTeoriaConjuntos {
     private void exibirMenu() {
         int opcao = -1;
         do {
-            System.out.println("\n--- MENU DE OPERAÇÕES ---");
-            System.out.println("1. Mostrar Conjuntos");
-            System.out.println("2. União (A ∪ B)");
-            System.out.println("3. Intersecção (A ∩ B)");
-            System.out.println("4. Diferença (A - B e B - A)");
-            System.out.println("5. Diferença Simétrica (A Δ B)");
-            System.out.println("6. Verificações (Pertinência e Inclusão)");
-            System.out.println("7. Cardinalidade e Complemento");
-            System.out.println("8. Comparar com Validação Nativa (java.util.Set)");
-            System.out.println("0. Sair");
+            System.out.print("""
+            === MENU DE OPERAÇÕES ===
+                [1] - Mostrar Conjuntos
+                [2] - União (A ∪ B)
+                [3] - Intersecção (A ∩ B)
+                [4] - Diferença (A - B e B - A)
+                [5] - Diferença Simétrica (A Δ B)
+                [6] - Verificações (Pertinência e Inclusão)
+                [7] - Cardinalidade e Complemento
+                [8] - Comparar com Validação Nativa (java.util.Set)
+                [0] - Voltar ao Menu Principal
+            """);
             System.out.print("Escolha uma opção: ");
 
             String entradaOpcao = scanner.nextLine().trim();

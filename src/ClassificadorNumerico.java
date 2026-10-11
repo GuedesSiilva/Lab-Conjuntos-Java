@@ -4,6 +4,7 @@ import java.util.List;
 
 public class ClassificadorNumerico {
 
+    // Convencionado no projeto: 0 PERTENCE aos Naturais (0 ∈ ℕ)
     public static class ResultadoClassificacao {
         public String entrada;
         public String tipoIdentificado;
