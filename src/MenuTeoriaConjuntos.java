@@ -28,7 +28,7 @@ public class MenuTeoriaConjuntos {
         do {
             System.out.print("""
             === MENU DE OPERAÇÕES ===
-                [1] - Mostrar Conjuntos
+                [1] - Mostrar Conjuntos (A, B e U)
                 [2] - União (A ∪ B)
                 [3] - Intersecção (A ∩ B)
                 [4] - Diferença (A - B e B - A)
@@ -95,7 +95,7 @@ public class MenuTeoriaConjuntos {
             case 7:
                 System.out.println("|A| (Cardinalidade de A): " + conjuntoA.cardinalidade());
                 System.out.println("|B| (Cardinalidade de B): " + conjuntoB.cardinalidade());
-                System.out.println("Complemento de A (A^c): " + conjuntoA.complemento(universo));
+                System.out.println("Complemento de A (A^c = U - A): " + conjuntoA.complemento(universo));
                 break;
 
             case 8:
@@ -133,17 +133,81 @@ public class MenuTeoriaConjuntos {
     private void validarComNativo() {
         Set<Integer> setA = new HashSet<>(conjuntoA.getElementos());
         Set<Integer> setB = new HashSet<>(conjuntoB.getElementos());
+        Set<Integer> setU = new HashSet<>(universo.getElementos());
 
-        System.out.println("=== VALIDAÇÃO COM JAVA.UTIL.SET NATIVO ===");
+        System.out.println("==============================================================");
+        System.out.println("      VALIDAÇÃO CRUZADA: NOSSA CLASSE vs. JAVA.UTIL.SET       ");
+        System.out.println("==============================================================");
 
+        // 1. União
         Set<Integer> uniaoNativa = new HashSet<>(setA);
         uniaoNativa.addAll(setB);
-        System.out.println("União Nativa (HashSet): " + uniaoNativa);
-        System.out.println("Nossa União:             " + conjuntoA.uniao(conjuntoB));
+        Set<Integer> nossaUniaoSet = new HashSet<>(conjuntoA.uniao(conjuntoB).getElementos());
+        System.out.println("1. União (A ∪ B):");
+        System.out.println("   - Implementação Própria : " + conjuntoA.uniao(conjuntoB));
+        System.out.println("   - java.util.HashSet     : " + uniaoNativa);
+        System.out.println("   - Validação             : " + (nossaUniaoSet.equals(uniaoNativa) ? "CORRETO [OK]" : "DIVERGENTE [ERRO]"));
 
+        // 2. Intersecção
         Set<Integer> intersecaoNativa = new HashSet<>(setA);
         intersecaoNativa.retainAll(setB);
-        System.out.println("Intersecção Nativa (HashSet): " + intersecaoNativa);
-        System.out.println("Nossa Intersecção:             " + conjuntoA.intersecao(conjuntoB));
+        Set<Integer> nossaIntersecaoSet = new HashSet<>(conjuntoA.intersecao(conjuntoB).getElementos());
+        System.out.println("\n2. Intersecção (A ∩ B):");
+        System.out.println("   - Implementação Própria : " + conjuntoA.intersecao(conjuntoB));
+        System.out.println("   - java.util.HashSet     : " + intersecaoNativa);
+        System.out.println("   - Validação             : " + (nossaIntersecaoSet.equals(intersecaoNativa) ? "CORRETO [OK]" : "DIVERGENTE [ERRO]"));
+
+        // 3. Diferença A - B
+        Set<Integer> difABNativa = new HashSet<>(setA);
+        difABNativa.removeAll(setB);
+        Set<Integer> nossaDifABSet = new HashSet<>(conjuntoA.diferenca(conjuntoB).getElementos());
+        System.out.println("\n3. Diferença (A - B):");
+        System.out.println("   - Implementação Própria : " + conjuntoA.diferenca(conjuntoB));
+        System.out.println("   - java.util.HashSet     : " + difABNativa);
+        System.out.println("   - Validação             : " + (nossaDifABSet.equals(difABNativa) ? "CORRETO [OK]" : "DIVERGENTE [ERRO]"));
+
+        // 4. Diferença B - A
+        Set<Integer> difBANativa = new HashSet<>(setB);
+        difBANativa.removeAll(setA);
+        Set<Integer> nossaDifBASet = new HashSet<>(conjuntoB.diferenca(conjuntoA).getElementos());
+        System.out.println("\n4. Diferença (B - A):");
+        System.out.println("   - Implementação Própria : " + conjuntoB.diferenca(conjuntoA));
+        System.out.println("   - java.util.HashSet     : " + difBANativa);
+        System.out.println("   - Validação             : " + (nossaDifBASet.equals(difBANativa) ? "CORRETO [OK]" : "DIVERGENTE [ERRO]"));
+
+        // 5. Diferença Simétrica
+        Set<Integer> difSimNativa = new HashSet<>(difABNativa);
+        difSimNativa.addAll(difBANativa);
+        Set<Integer> nossaDifSimSet = new HashSet<>(conjuntoA.diferencaSimetrica(conjuntoB).getElementos());
+        System.out.println("\n5. Diferença Simétrica (A Δ B):");
+        System.out.println("   - Implementação Própria : " + conjuntoA.diferencaSimetrica(conjuntoB));
+        System.out.println("   - java.util.HashSet     : " + difSimNativa);
+        System.out.println("   - Validação             : " + (nossaDifSimSet.equals(difSimNativa) ? "CORRETO [OK]" : "DIVERGENTE [ERRO]"));
+
+        // 6. Subconjunto A ⊆ B
+        boolean subNativo = setB.containsAll(setA);
+        boolean nossoSub = conjuntoA.ehSubconjunto(conjuntoB);
+        System.out.println("\n6. Subconjunto (A ⊆ B):");
+        System.out.println("   - Implementação Própria : " + nossoSub);
+        System.out.println("   - java.util.HashSet     : " + subNativo);
+        System.out.println("   - Validação             : " + (nossoSub == subNativo ? "CORRETO [OK]" : "DIVERGENTE [ERRO]"));
+
+        // 7. Cardinalidade
+        int cardNativaA = setA.size();
+        int nossaCardA = conjuntoA.cardinalidade();
+        System.out.println("\n7. Cardinalidade (|A|):");
+        System.out.println("   - Implementação Própria : " + nossaCardA);
+        System.out.println("   - java.util.HashSet     : " + cardNativaA);
+        System.out.println("   - Validação             : " + (nossaCardA == cardNativaA ? "CORRETO [OK]" : "DIVERGENTE [ERRO]"));
+
+        // 8. Complemento (U - A)
+        Set<Integer> compNativo = new HashSet<>(setU);
+        compNativo.removeAll(setA);
+        Set<Integer> nossoCompSet = new HashSet<>(conjuntoA.complemento(universo).getElementos());
+        System.out.println("\n8. Complemento de A em U (A^c = U - A):");
+        System.out.println("   - Implementação Própria : " + conjuntoA.complemento(universo));
+        System.out.println("   - java.util.HashSet     : " + compNativo);
+        System.out.println("   - Validação             : " + (nossoCompSet.equals(compNativo) ? "CORRETO [OK]" : "DIVERGENTE [ERRO]"));
+        System.out.println("==============================================================\n");
     }
 }

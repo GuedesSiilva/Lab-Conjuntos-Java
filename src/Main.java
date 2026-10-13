@@ -1,20 +1,20 @@
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int opcao = -1;
         do {
             System.out.print("""
-                ======================================= 
-                    Laboratório de Conjuntos - JAVA
-                =======================================  
+                ============================================================ 
+                             LABORATÓRIO DE CONJUNTOS - JAVA
+                ============================================================  
                     [1] - Teoria dos Conjuntos (Menu e Operações)
-                    [2] - Classificador de Conjuntos Numéricoseoria dos conjuntos 
-                    [3] - Teoria dos conjuntos 
+                    [2] - Classificador de Conjuntos Numéricos
+                    [3] - Mini-projeto: Sistema de Recomendação (Jaccard)
+                    [4] - Executar Bateria de Testes Automatizada
                     [0] - Sair do Programa
+                ============================================================
                 """);
             System.out.print("Escolha uma opção: ");
 
@@ -24,6 +24,8 @@ public class Main {
             } catch (NumberFormatException e) {
                 opcao = -1;
             }
+
+            System.out.println();
 
             switch (opcao) {
                 case 1:
@@ -36,12 +38,21 @@ public class Main {
                     menuParte2.iniciar();
                     break;
 
+                case 3:
+                    MenuRecomendacao menuParte3 = new MenuRecomendacao();
+                    menuParte3.iniciar();
+                    break;
+
+                case 4:
+                    BateriaTestes.executarTodosOsTestes();
+                    break;
+
                 case 0:
-                    System.out.println("Programa encerrado!");
+                    System.out.println("Programa encerrado com sucesso. Bons estudos!");
                     break;
 
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opção inválida. Digite um número de 0 a 4.");
             }
         } while (opcao != 0);
 
