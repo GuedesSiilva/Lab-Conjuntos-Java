@@ -6,7 +6,7 @@ Projeto prático desenvolvido para a disciplina de **Matemática Concreta / Teor
 
 ## 👥 Integrantes
 * Davi Guedes / 2161392613008
-* Guilherme Carducci / 216139261
+* Guilherme Carducci / 2161392613025
 
 ---
 
